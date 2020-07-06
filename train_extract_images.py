@@ -2,7 +2,7 @@ from PIL import Image
 import sys
 import os
 from os import listdir
-import util
+import find_lines
 
 def main():
     if len(sys.argv) < 3:
@@ -16,13 +16,13 @@ def main():
             print("Skipping, not an image file.")
         else:
             image = Image.open(input_folder + image_file)
-            image_mono = util.preprocess_image(image)
+            image_mono = find_lines.preprocess_image(image)
             image_mono.show()
             # util.print_image(image_mono, None)
-            horizontal_lines, vertical_lines = util.find_lines(image_mono)
-            cell_image_boundaries = util.get_cell_image_boundaries(horizontal_lines, vertical_lines)
+            horizontal_lines, vertical_lines = find_lines.find_lines(image_mono)
+            cell_image_boundaries = find_lines.get_cell_image_boundaries(horizontal_lines, vertical_lines)
             rows, columns = cell_image_boundaries.shape
-            util.trim_cell_images(image_mono, cell_image_boundaries)
+            find_lines.trim_cell_images(image_mono, cell_image_boundaries)
             for row in range(rows):
                 for column in range(columns):
                     if sum(cell_image_boundaries[row, column]) > 0:

@@ -3,7 +3,7 @@ import sys
 import os
 from os import listdir
 import numpy
-import util
+import find_lines
 import json
 import io
 
@@ -49,11 +49,11 @@ def main():
                 else:
                     image = Image.open("%s/%s" % (image_folder, image_file))
                     # arrays to hold the x and y axis totals for this image
-                    x_histogram, y_histogram = util.count_pixels(image)
+                    x_histogram, y_histogram = find_lines.count_pixels(image)
                     # because images come in different sizes we need to normalize the length of the array
                     # of counts to be a constant
-                    normalized_x = util.morph_array_to_size(x_histogram, metrics_array_size)
-                    normalized_y = util.morph_array_to_size(y_histogram, metrics_array_size)
+                    normalized_x = find_lines.morph_array_to_size(x_histogram, metrics_array_size)
+                    normalized_y = find_lines.morph_array_to_size(y_histogram, metrics_array_size)
                     print("%s:\tx: %s, %s\ty: %s, %s" % (image_file, sum(x_histogram), sum(normalized_x),
                                                          sum(y_histogram), sum(normalized_y)))
                     print("x:\t%s" % normalized_x)

@@ -2,7 +2,7 @@ from PIL import Image
 from PIL import ImageDraw
 import sys
 import json
-import util
+import find_lines
 
 def main():
     if len(sys.argv) < 3:
@@ -14,12 +14,12 @@ def main():
     x_metrics = json.loads(x_metrics_file.read())
     y_metrics = json.loads(y_metrics_file.read())
 
-    horizontal_lines, vertical_lines, image = util.find_lines_cv2(image_name)
+    horizontal_lines, vertical_lines, image = find_lines.find_lines_cv2(image_name)
     show_lines_on_image(image, horizontal_lines, vertical_lines)
-    cell_image_boundaries = util.get_cell_image_boundaries(horizontal_lines, vertical_lines)
+    cell_image_boundaries = find_lines.get_cell_image_boundaries(horizontal_lines, vertical_lines)
     show_cell_images(image, cell_image_boundaries)
     rows, columns = cell_image_boundaries.shape
-    util.trim_cell_images(image, cell_image_boundaries)
+    find_lines.trim_cell_images(image, cell_image_boundaries)
     matrix = []
     for row in range(rows):
         new_row = []
@@ -27,7 +27,7 @@ def main():
             if sum(cell_image_boundaries[row, column]) > 0:
                 number_image = image.crop((cell_image_boundaries[row, column]))
                 number_image.show()
-                number = util.get_number_from_image(number_image, x_metrics, y_metrics)
+                number = find_lines.get_number_from_image(number_image, x_metrics, y_metrics)
                 new_row.append(number)
             else:
                 new_row.append(0)
