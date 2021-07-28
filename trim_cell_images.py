@@ -1,7 +1,6 @@
 import numpy
 
-black = 0
-white = 255
+
 
 def get_cell_image_boundaries(horizontal_lines, vertical_lines):
 
